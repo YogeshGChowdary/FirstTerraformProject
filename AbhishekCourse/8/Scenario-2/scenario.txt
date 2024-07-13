@@ -1,0 +1,32 @@
+Resource Drift:
+
+resource/infra created in AWS manually which terraform is not aware of
+
+1. create ec2 instance from terraform
+2. update ec2 instance in aws console (like add addl. tags)
+3. now resource in AWS is not in sync with local terraform tf.state.. this is called Drift
+4. run "terraform plan -refresh-only" --> to see what are changes
+5. run "terraform apply -refresh-only" --> to apply the changes
+6. once refresh apply command is run, now local terraform is in sync with resource in AWS
+
+
+terraform refresh will pull the changes that are manually done in console
+
+----------------------------------------------------------------------------------
+
+1. To replace the resource, assume one of ec2 instance is corrupted and you want to replace it, use the command below
+2. terraform plan -replace="aws_instance.test_drift" -out test_drift
+3. instance script as below... replace the respective attributes in command above
+
+resource "aws_instance" "test_drift" {
+  ami = "ami-04b70fa74e45c3917"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "web-app"
+    Kind = "httpd-server"
+  }
+}
+
+4. to apply the changes run the command below
+terraform apply "test_drift"
+remember-> when running terraform apply now, it won't ask for confirmation

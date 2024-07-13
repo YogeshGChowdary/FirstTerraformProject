@@ -1,0 +1,18 @@
+1.Already have Infra on AWS, how will you import the configuration entirely to terraform using import command
+
+2. create main.tf with empty resource block
+
+3.provider "aws" {
+    region = "us-east-1"
+  }
+
+  resource "aws_instance" "scenario-1" {
+    
+  }
+
+4. and in terminal run commands as below
+   "terraform init" 
+
+  "terraform import aws_instance.scenario-1 i-0eedec6b2e6b81b0f"
+  
+here instance id copy from console, which you want to import to terraform
